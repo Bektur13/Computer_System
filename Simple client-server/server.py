@@ -15,7 +15,7 @@ while True:
     c, addr = s.accept()
     print("Got connection from", addr)
 
-    c.encode("Thanks for connection".encode())
+    c.send("Thanks for connection".encode())
 
     c.close()
     break
