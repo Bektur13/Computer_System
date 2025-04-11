@@ -15,10 +15,10 @@ public class Main {
             }
             try {
                 String operator = expr[0];
-                int operator1 = Integer.parseInt(expr[1]);
-                int operator2 = Integer.parseInt(expr[2]);
+                double operator1 = Double.parseDouble(expr[1]);
+                double operator2 = Double.parseDouble(expr[2]);
                 
-                int result = evaluate(operator, operator1, operator2);
+                double result = evaluate(operator, operator1, operator2);
                 System.out.println(result);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number recieved: " + line);
@@ -30,7 +30,7 @@ public class Main {
         System.out.println("Input recieved: " + line);
     }
 
-    private static int evaluate(String operator, int operator1, int operator2) {
+    private static double evaluate(String operator, double operator1, double operator2) throws IllegalAccessException {
         switch (operator) {
             case "ADD":
                 return operator1 + operator2;
@@ -48,14 +48,12 @@ public class Main {
                 }
                 return operator1 / operator2;
             case "MOD":
+                if(operator1 % 1 != 0 || operator2 % 1 != 0) {
+                    throw new IllegalAccessException("MOD is only supported for integers");
+                }
                 return operator1 % operator2;
             case "POW":
-                long result = 1;
-                while(operator2 != 0) {
-                    result *= operator1;
-                    operator2--;
-                }
-                return (int) result;
+                return Math.pow(operator1, operator2);
             default:
                 throw new UnsupportedOperationException("Operation not supported!");
         }
