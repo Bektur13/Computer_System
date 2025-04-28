@@ -1,7 +1,6 @@
 package com.bektur;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -10,22 +9,22 @@ public class Main {
 
         System.out.println("Welcome to your config interpreter!");
         Map<String, Double> configs = new HashMap<>();
-        String[] lines = {
-                "config \"num_users\" = 100",
-                "config \"request_rate\" = 5.5",
-                "config \timeout\" = 30",
-                "update \"nums_users\" = 200",
-                "update \"request_rate\" = 7.5",
-                "compute \"total_requests\" = %num_users * %request_rate",
-                "compute \"total_timeout\" = %num_users * %timeout",
-                "show configs"
-        };
+        Scanner scanner = new Scanner(System.in);
+
+        List<String> lines = new ArrayList<>();
+        System.out.println("Enter your config commands: ");
+        System.out.println("Enter END to finish!");
+
+        while(true) {
+            String input = scanner.nextLine();
+            if(input.equals("END")) {
+                break;
+            }
+            lines.add(input);
+        }
         for(String line : lines) {
             processLine(line, configs);
         }
-
-        System.out.println("nums_users = " + configs.get("nums_users"));
-
     }
 
     static void processLine(String line, Map<String, Double> configs) {
@@ -61,20 +60,48 @@ public class Main {
             // Print
             System.out.println("Updated variable: " + name + " = " + updatedValue);
         }else if(line.startsWith("compute")) {
-            // Find a name of variable
             int start = line.indexOf("\"") + 1;
             int end = line.indexOf("\"", start);
-            String name = line.substring(start, end);
+            String resultName = line.substring(start, end);
 
-            // Find value of variable
-            int equalSum = line.indexOf("=");
-            String expression = line.substring(equalSum + 1).trim();
-            System.out.println(expression);
+            int equalSign = line.indexOf("=");
+            String expression = line.substring(equalSign + 1).trim();
 
+            int firstPercent = expression.indexOf("%") + 1;
+            int operatorIndex = expression.indexOf(" ", firstPercent);
+            String leftVar = expression.substring(firstPercent, operatorIndex);
 
-            System.out.println("This is compute line");
+            char operator = expression.charAt(operatorIndex + 1);
+
+            int secondPercent = expression.indexOf("%", operatorIndex);
+            String rightVar = expression.substring(secondPercent + 1);
+
+            double leftValue = configs.get(leftVar);
+            double rightValue = configs.get(rightVar);
+
+            double result = 0;
+            switch (operator) {
+                case '+':
+                    result = leftValue + rightValue;
+                    break;
+                case '-':
+                    result = leftValue - rightValue;
+                    break;
+                case '*':
+                    result = leftValue * rightValue;
+                    break;
+                case '/':
+                    result = leftValue / rightValue;
+                    break;
+            }
+            configs.put(resultName, result);
+
+            System.out.println("Computed " + resultName + " = " + result);
         }else if(line.startsWith("show configs")) {
-            System.out.println("This is show configs line");
+            System.out.println("Here are all configs:");
+            for(Map.Entry<String, Double> entry : configs.entrySet()) {
+                System.out.println(entry.getKey() + " = " + entry.getValue());
+            }
         }
     }
 
