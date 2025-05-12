@@ -7,6 +7,17 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
+        String inputs = """
+                loop "i" from 1 to 3
+                compute = "result_%i" = %num_users * %i
+                end
+                """;
+        Lexer lexer = new Lexer(inputs);
+        List<Token> tokens = lexer.tokenize();
+        for (Token token : tokens) {
+            System.out.println(token);
+        }
+
         System.out.println("Welcome to your config interpreter!");
         Map<String, Double> configs = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
