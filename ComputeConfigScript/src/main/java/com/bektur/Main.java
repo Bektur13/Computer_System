@@ -7,16 +7,18 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        String inputs = """
-                loop "i" from 1 to 3
-                compute = "result_%i" = %num_users * %i
-                end
-                """;
-        Lexer lexer = new Lexer(inputs);
-        List<Token> tokens = lexer.tokenize();
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
+//        String inputs = """
+//                loop "i" from 1 to 3
+//                compute = "result_%i" = %num_users * %i
+//                end
+//                """;
+//        Lexer lexer = new Lexer(inputs);
+//        List<Token> tokens = lexer.tokenize();
+//        for (Token token : tokens) {
+//            System.out.println(token);
+//        }
+
+
 
         System.out.println("Welcome to your config interpreter!");
         Map<String, Double> configs = new HashMap<>();
@@ -26,16 +28,23 @@ public class Main {
         System.out.println("Enter your config commands: ");
         System.out.println("Enter END to finish!");
 
-        while(true) {
+        while (true) {
             String input = scanner.nextLine();
-            if(input.equals("END")) {
+            if (input.equals("END")) {
                 break;
             }
             lines.add(input);
         }
-        for(String line : lines) {
-            processLine(line, configs);
-        }
+
+// ✅ Now that user is done typing:
+        Lexer lexer = new Lexer(String.join("\n", lines));
+        List<Token> tokens = lexer.tokenize();
+
+        Parser parser = new Parser(tokens, configs);
+        parser.parse();
+//        for(String line : lines) {
+//            processLine(line, configs);
+//        }
     }
 
     static void processLine(String line, Map<String, Double> configs) {
