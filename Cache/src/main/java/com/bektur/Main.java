@@ -4,8 +4,8 @@ package com.bektur;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Cache myCache = CacheFactory.createCache("LRU", 2);
-        Cache fifoCache = CacheFactory.createCache("FIFO", 3);
+        Cache myCache = CacheFacade.createLRUCache(2);
+        Cache fifoCache = CacheFacade.createFIFOCache(3);
 
         myCache.put("A", 1);
         myCache.put("B", 6);
