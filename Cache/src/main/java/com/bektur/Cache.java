@@ -6,5 +6,5 @@ public interface Cache {
     void remove(String key);
     void clear();
     int size();
-    boolean consistKey(String key);
+    boolean containsKey(String key);
 }

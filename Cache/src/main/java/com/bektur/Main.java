@@ -7,6 +7,11 @@ public class Main {
         Cache myCache = CacheFacade.createLRUCache(2);
         Cache fifoCache = CacheFacade.createFIFOCache(3);
 
+        Cache baseCache = CacheFacade.createLFUCache(3);
+        Cache cache = new CacheDecorator(baseCache);
+        cache.put("A", 1);
+        cache.get("A");
+
         myCache.put("A", 1);
         myCache.put("B", 6);
         myCache.put("C", 4);

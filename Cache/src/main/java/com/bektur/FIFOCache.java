@@ -34,7 +34,7 @@ public class FIFOCache implements Cache {
     public int size() {
         return cache.size();
     }
-    public boolean consistKey(String key) {
+    public boolean containsKey(String key) {
         return cache.containsKey(key);
     }
 }

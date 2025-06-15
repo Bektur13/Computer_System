@@ -38,7 +38,7 @@ public class LRUCache implements Cache{
         return cache.size();
     }
 
-    public boolean consistKey(String key) {
+    public boolean containsKey(String key) {
         return cache.containsKey(key);
     }
 }
