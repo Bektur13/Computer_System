@@ -12,6 +12,15 @@ public class Main {
         cache.put("A", 1);
         cache.get("A");
 
+        Cache base = CacheFacade.createFIFOCache(2);
+        Cache proxyCache = new CacheProxy(base, 2);
+
+        proxyCache.put("A", 1);
+        proxyCache.put("B", 2);
+        proxyCache.put("C", 3); // Should trigger proxy warning
+
+        System.out.println(proxyCache.get("A"));
+
         myCache.put("A", 1);
         myCache.put("B", 6);
         myCache.put("C", 4);
