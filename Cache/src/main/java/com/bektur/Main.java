@@ -5,7 +5,8 @@ package com.bektur;
 public class Main {
     public static void main(String[] args) {
         CacheEvictionStrategy strategy = new LFUEvictionStrategy();
-        Cacche strategyCache = new StrategyCache(2, strategy);
+        Cache strategyCache = new StrategyCache(2, strategy);
+        strategyCache.put("A", 1);
         Cache myCache = CacheFacade.createLRUCache(2);
         Cache fifoCache = CacheFacade.createFIFOCache(3);
 
