@@ -4,6 +4,8 @@ package com.bektur;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        CacheEvictionStrategy strategy = new LFUEvictionStrategy();
+        Cacche strategyCache = new StrategyCache(2, strategy);
         Cache myCache = CacheFacade.createLRUCache(2);
         Cache fifoCache = CacheFacade.createFIFOCache(3);
 
